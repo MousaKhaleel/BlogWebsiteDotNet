@@ -10,6 +10,11 @@ namespace BlogWebsiteDotNet.Models
 		public int Id { get; set; }
 		public string BlogName { get; set; }
 		public string BlogContent { get; set; }
+		public DateTime CreatedDate { get; set; }
+		//public Base64 BlogImage { get; set; }
+		public bool IsDeleted { get; set; }
 
+		public List<Comment>? Comments { get; set; }
+		public List<UserBlog> UserBlogs { get; set; }
 	}
 }
