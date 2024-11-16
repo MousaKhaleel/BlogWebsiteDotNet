@@ -20,6 +20,5 @@ namespace BlogWebsiteDotNet.Models
         [ForeignKey(nameof(UserId))]
         public int UserId { get; set; }
 		public User User { get; set; }
-        //public Blog Blog { get; set; } what type
     }
 }
