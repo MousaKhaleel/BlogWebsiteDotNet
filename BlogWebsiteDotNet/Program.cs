@@ -19,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole>(
 	options =>
 	{
+		//temp for dev
 		options.Password.RequiredUniqueChars = 0;
 		options.Password.RequireUppercase = false;
 		options.Password.RequireLowercase = false;
