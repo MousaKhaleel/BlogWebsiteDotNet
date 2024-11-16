@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Buffers.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlogWebsiteDotNet.Models
 {
-	public class User
+	public class User:IdentityUser
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,9 +21,9 @@ namespace BlogWebsiteDotNet.Models
 
 		public List<Comment> Comments { get; set; }
 		public List<UserRole> UserRoles { get; set; }
-        public List<UserBlog>? UserBlogs { get; set; }
+		public List<UserBlog>? UserBlogs { get; set; }
 
 
 
-    }
+	}
 }
