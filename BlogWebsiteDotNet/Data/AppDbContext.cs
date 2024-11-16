@@ -18,6 +18,8 @@ namespace BlogWebsiteDotNet.Data
 			modelBuilder.Entity<Blog>()
 				.Property(e => e.CreatedDate)
 				.HasDefaultValueSql("GETDATE()");
+
+			base.OnModelCreating(modelBuilder);
 		}
 	}
 }
