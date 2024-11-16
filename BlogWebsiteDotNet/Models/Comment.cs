@@ -9,9 +9,16 @@ namespace BlogWebsiteDotNet.Models
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public string Id { get; set; }
 		public string CommentContent { get; set; }
+        public bool IsDeleted { get; set; }
+        //public bool IsModified { get; set; }
 
-		[ForeignKey(nameof(BlogId))]
+
+        [ForeignKey(nameof(BlogId))]
 		public int BlogId { get; set; }
 		public Blog Blog { get; set; }
-	}
+
+        [ForeignKey(nameof(UserId))]
+        public int UserId { get; set; }
+		public User User { get; set; }
+    }
 }

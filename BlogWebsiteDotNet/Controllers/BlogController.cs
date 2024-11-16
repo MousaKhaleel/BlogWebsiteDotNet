@@ -1,12 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlogWebsiteDotNet.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlogWebsiteDotNet.Controllers
 {
 	public class BlogController : Controller
 	{
-		public IActionResult Index()
+        private readonly AppDbContext _context;
+        public BlogController(AppDbContext dbContext)
+        {
+            _context = dbContext;
+        }
+        public IActionResult Index()
 		{
-			return View();
+            var allBlogs= _context.Blogs.Where(x=>!x.IsDeleted).ToList();
+			return View(allBlogs);
 		}
 	}
 }
