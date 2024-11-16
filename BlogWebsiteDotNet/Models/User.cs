@@ -18,9 +18,11 @@ namespace BlogWebsiteDotNet.Models
 		//public Base64 ProfileImage { get; set; }
 		public bool IsDeleted { get; set; }
 
-		public List<UserBlog>? UserBlogs { get; set; }
+		public List<Comment> Comments { get; set; }
 		public List<UserRole> UserRoles { get; set; }
+        public List<UserBlog>? UserBlogs { get; set; }
 
 
-	}
+
+    }
 }
