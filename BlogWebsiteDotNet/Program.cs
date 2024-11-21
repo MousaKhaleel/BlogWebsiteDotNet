@@ -9,8 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-//builder.Services.AddAuthorization();
-//builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -29,6 +27,8 @@ builder.Services.AddIdentity<User, IdentityRole>(
 	.AddRoles<IdentityRole>()
 	.AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +43,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
@@ -65,18 +67,21 @@ using (var scope = app.Services.CreateScope())
 
 using (var scope = app.Services.CreateScope())
 {
-	var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-	var name = "Admin";
-	var email = "Admin@adm.com";
-	var password = "Admin@1234";
-	if (await _userManager.FindByEmailAsync(email) == null)
-	{
-		var user = new IdentityUser();
-		user.UserName = name;
-		user.Email = email;
-		await _userManager.CreateAsync(user, password);
-		await _userManager.AddToRoleAsync(user, "Admin");
-	}
+    var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var name = "Admin";
+    var email = "Admin@adm.com";
+    var password = "Admin@1234";
+    if (await _userManager.FindByEmailAsync(email) == null)
+    {
+        var user = new User
+        {
+            UserName = name,
+            Email = email
+        };
+        await _userManager.CreateAsync(user, password);
+        await _userManager.AddToRoleAsync(user, "Admin");
+    }
 }
+
 
 app.Run();
