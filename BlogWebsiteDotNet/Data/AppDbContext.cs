@@ -5,19 +5,33 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BlogWebsiteDotNet.Data
 {
-	public class AppDbContext: IdentityDbContext<User>
-	{
-		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public class AppDbContext : IdentityDbContext<User>
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-		public DbSet<Blog> Blogs { get; set; }
-		public DbSet<Comment> Comments { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
-			modelBuilder.Entity<Blog>()
-				.Property(e => e.CreatedDate)
-				.HasDefaultValueSql("GETDATE()");
-		}
-	}
+            modelBuilder.Entity<Blog>()
+    .HasOne(b => b.User)
+    .WithMany(u => u.Blogs)
+    .HasForeignKey(b => b.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Blog>()
+                .Property(e => e.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            base.OnModelCreating(modelBuilder);
+        }
+    }
 }

@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@inject SignInManager<User> _signInManager
+
+
+
+@if (_signInManager.IsSignedIn(User))
+{
+	<ul class="navbar-nav flex-grow-1">
+		<li class="nav-item"></li>
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; border-radius: 2px;">
+				userName
+			</a>
+			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+				<li><a class="dropdown-item text-dark" asp-controller="" asp-action="">Profile</a></li>
+				<li><a class="dropdown-item text-dark" asp-controller="" asp-action="">History</a></li>
+				<li><a class="dropdown-item text-dark" asp-controller="Account" asp-action="LogOut">Log out</a></li>
+			</ul>
+		</li>
+	</ul>
+}
+else
+{
+	<ul class="navbar-nav flex-grow-1">
+		<li class="nav-item">
+			<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">LogIn</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+		</li>
+	</ul>
+}

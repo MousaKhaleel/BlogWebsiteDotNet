@@ -19,6 +19,8 @@ namespace BlogWebsiteDotNet.ViewModels
         public string? Password { get; set; }
 
         [Compare("Password",ErrorMessage ="Does not match")]
-        public string? ConfirmePassword { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string? ConfirmPassword { get; set; }
     }
 }
