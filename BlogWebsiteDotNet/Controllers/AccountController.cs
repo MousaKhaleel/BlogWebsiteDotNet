@@ -105,7 +105,7 @@ namespace BlogWebsiteDotNet.Controllers
 			return RedirectToAction("Profile");
 		}
 
-        public async Task<IActionResult> requireAuthorStatus(string id)
+        public async Task<IActionResult> requestAuthorStatus(string id)
         {
 			var user = await _userManager.FindByIdAsync(id);
             await _userManager.AddToRoleAsync(user, "Author");

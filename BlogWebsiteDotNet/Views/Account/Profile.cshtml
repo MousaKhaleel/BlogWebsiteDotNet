@@ -19,7 +19,7 @@
 @if (User.IsInRole("Commenter"))
 {
 	<div>
-		<a class="btn btn-primary" asp-action="requireAuthorStatus" asp-route-id="@User.FindFirst(ClaimTypes.NameIdentifier)">Request to become an Author</a>
+		<a class="btn btn-primary" asp-action="requestAuthorStatus" asp-route-id="@User.FindFirst(ClaimTypes.NameIdentifier)">Request to become an Author</a>
 	</div>
 }
 
