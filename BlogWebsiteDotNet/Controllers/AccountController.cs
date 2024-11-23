@@ -48,26 +48,28 @@ namespace BlogWebsiteDotNet.Controllers
 		}
         public async Task<IActionResult> Register(RegisterVM viewModel)
         {
-            //if (ModelState.IsValid) {
-            User user = new()
+            if (ModelState.IsValid)
             {
-                UserName = viewModel.UserName,
-                Email = viewModel.Email,
-                PhoneNumber = viewModel.PhoneNumber,
-                EmailConfirmed=false,
-                PhoneNumberConfirmed=false,
-                TwoFactorEnabled=false,
-                LockoutEnabled=false,
-                AccessFailedCount=0,
-            };
-            var result= await _userManager.CreateAsync(user, viewModel.Password);
-            if (result.Succeeded)
-            {
-                var roleResult = await _userManager.AddToRoleAsync(user, "Commenter");
-                if (roleResult.Succeeded)
+                User user = new()
                 {
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    UserName = viewModel.UserName,
+                    Email = viewModel.Email,
+                    PhoneNumber = viewModel.PhoneNumber,
+                    EmailConfirmed = false,
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnabled = false,
+                    AccessFailedCount = 0,
+                };
+                var result = await _userManager.CreateAsync(user, viewModel.Password);
+                if (result.Succeeded)
+                {
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Commenter");
+                    if (roleResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             return View(viewModel);

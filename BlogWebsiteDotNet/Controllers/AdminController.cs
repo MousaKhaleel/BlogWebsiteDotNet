@@ -23,13 +23,18 @@ namespace BlogWebsiteDotNet.Controllers
 			var prendingRequests= await _context.StatusRequests.Where(x=>x.requestStatus=="Pending").ToListAsync();
 			return View(prendingRequests);
 		}
+		//public async Task<IActionResult> StatusHistory()
+		//{
+		//	var prendingRequests = await _context.StatusRequests.ToListAsync();
+		//	return View(prendingRequests);
+		//}
 		public async Task<IActionResult> grantAuthorStatus(int id)
 		{
 			var req = _context.StatusRequests.Where(x => x.Id == id).Include(y=>y.User).FirstOrDefault();
 			var user = await _userManager.FindByIdAsync(req.UserId);
 			await _userManager.AddToRoleAsync(user, "Author");
 			req.requestStatus = "Approved";
-			_context.SaveChangesAsync();
+			await _context.SaveChangesAsync();
 
 			return RedirectToAction("Index");
 		}
@@ -38,7 +43,7 @@ namespace BlogWebsiteDotNet.Controllers
 			var req = _context.StatusRequests.Where(x => x.Id == id).FirstOrDefault();
 			var user = await _userManager.FindByIdAsync(req.UserId);
 			req.requestStatus = "Denied";
-			_context.SaveChangesAsync();
+			await _context.SaveChangesAsync();
 
 			return RedirectToAction("Index");
 		}

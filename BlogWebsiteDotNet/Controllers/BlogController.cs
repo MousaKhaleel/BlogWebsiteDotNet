@@ -50,10 +50,19 @@ namespace BlogWebsiteDotNet.Controllers
         }
 		public async Task<IActionResult> BlogDetails(int id)
 		{
-			ViewBag.blogDetails = _context.Blogs.Where(x => x.Id == id).Include(y => y.Comments);
-			//var blogComments= _context.Comments.Where(x=>x.BlogId==id).ToList();
+			var blogDetails = await _context.Blogs.Where(x => x.Id == id).FirstAsync();
+			var blogComments= await _context.Comments.Where(x=>x.BlogId==id).Include(y=>y.User).ToListAsync();
 
-			return View();
+            var blogAndComments = new BlogAndCommentsVM
+            {
+                BlogId = blogDetails.Id,
+                BlogTitle = blogDetails.BlogTitle,
+                BlogContent = blogDetails.BlogContent,
+                //BlogIsDeleted = blogDetails.IsDeleted,
+                Comments = blogComments.ToList(),
+            };
+
+            return View(blogAndComments);
 		}
 
 		//public async Task<IActionResult> EditBog()
@@ -64,5 +73,20 @@ namespace BlogWebsiteDotNet.Controllers
 		//{
 		//	return View
 		//}
+
+		[Authorize(Roles = "Commenter, Author, Admin")]
+		public async Task<IActionResult> WriteComment(BlogAndCommentsVM blogAndComments)
+		{
+			var comment = new Comment
+			{
+				CommentContent = blogAndComments.CommentContent,
+				BlogId = blogAndComments.BlogId,
+				UserId = blogAndComments.CommenterId,
+				IsDeleted = false,
+			};
+			await _context.Comments.AddAsync(comment);
+			await _context.SaveChangesAsync();
+			return RedirectToAction("BlogDetails", "Blog", new { id=blogAndComments.BlogId });
+		}
 	}
 }

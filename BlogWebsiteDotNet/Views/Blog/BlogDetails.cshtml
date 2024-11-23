@@ -7,7 +7,7 @@
 	var userId = _userManager.GetUserId(User);
 }
 
-@model BlogWebsiteDotNet.ViewModels.CommentVM
+@model BlogWebsiteDotNet.ViewModels.BlogAndCommentsVM
 @inject UserManager<User> _userManager
 
 
@@ -25,31 +25,41 @@
 </head>
 
 <div class="contentContainer">
-	<h2>@ViewBag.blog.BlogTitle</h2>
+	<h2>@Model.BlogTitle</h2>
 	<!--TODO:add edit and delete-->
-	<button type="submit" class="btn" style="background: rgb(0, 166, 204); color: white;">Delete Blog</button>
-	<p>@ViewBag.blog.BlogContent</p>
+	@* <button type="submit" class="btn" style="background: rgb(0, 166, 204); color: white;">Delete Blog</button> *@
+	<p>@Model.BlogContent</p>
 </div>
 <div>
 	<h4>Leave a comment</h4>
 	<form asp-action="WriteComment" method="POST">
 		<div class="form-group">
-			<input type="hidden" name="UserId" asp-for="UserId" value="@userId" />
-			<input type="hidden" name="BlogId" asp-for="BlogId" value="@ViewBag.blog.Id" />
+			<input type="hidden" name="CommenterId" asp-for="CommenterId" value="@userId" />
+			<input type="hidden" name="BlogId" asp-for="BlogId" value="@Model.BlogId" />
 
-			<label for="content">Content</label>
+			<label for="content">Content:</label>
 <textarea class="form-control"
 		  id="content"
-		  rows="12"
+		  rows="2"
 		  asp-for="CommentContent"
 		  required></textarea>
 		</div>
+		<br />
+		<button type="submit" class="btn w-100" style="background: rgb(0, 166, 204); color: white;">
+			Publish
+		</button>
 	</form>
 </div>
-@* <div>
+<hr />
+<br />
+<div>
 	<ul>
-		@foreach(comment in Model.Comments){
-		<li></li>
+		@foreach (var comment in Model.Comments)
+		{
+			<li>
+				<p>@comment.User.UserName</p>
+				<p>@comment.CommentContent</p>
+			</li>
 		}
 	</ul>
-</div> *@
+</div>

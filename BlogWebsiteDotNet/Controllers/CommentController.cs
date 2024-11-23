@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace BlogWebsiteDotNet.Controllers
 {
@@ -24,19 +25,7 @@ namespace BlogWebsiteDotNet.Controllers
         //    return View("Index", allBlogs);
         //}
 
-        [Authorize(Roles = "Commenter, Author, Admin")]
-        public async Task<IActionResult> WriteComment(CommentVM commentVM)
-        {
-            var comment = new Comment
-            {
-                CommentContent = commentVM.CommentContent,
-                BlogId = commentVM.BlogId,
-                UserId = commentVM.UserId,
-                IsDeleted = false,
-            };
-            //contenue
-			return RedirectToAction("Index", "Blog");
-        }
+
 
 
 
