@@ -24,7 +24,6 @@ namespace BlogWebsiteDotNet.Controllers
         //    return View("Index", allBlogs);
         //}
 
-        //for comenter
         [Authorize(Roles = "Commenter, Author, Admin")]
         public async Task<IActionResult> WriteComment(CommentVM commentVM)
         {
