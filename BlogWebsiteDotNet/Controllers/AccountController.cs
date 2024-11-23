@@ -43,6 +43,7 @@ namespace BlogWebsiteDotNet.Controllers
 		}
         public async Task<IActionResult> Register(RegisterVM viewModel)
         {
+            //if (ModelState.IsValid) {
             User user = new()
             {
                 UserName = viewModel.UserName,
@@ -57,8 +58,12 @@ namespace BlogWebsiteDotNet.Controllers
             var result= await _userManager.CreateAsync(user, viewModel.Password);
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
-                return RedirectToAction("Index","Home");
+                var roleResult = await _userManager.AddToRoleAsync(user, "commenter");
+                if (roleResult.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View(viewModel);
         }
@@ -67,6 +72,27 @@ namespace BlogWebsiteDotNet.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile(string id)
+        {
+            var user= _userManager.FindByEmailAsync(id);
+            return View(user);
+
+        }
+        public async Task<IActionResult> EditProfile(UserVM userEdit)
+        {
+			var user= await _userManager.GetUserAsync(User);
+			await _userManager.SetEmailAsync(user, userEdit.Email);
+			await _userManager.SetPhoneNumberAsync(user, userEdit.PhoneNumber);
+
+			var token= await _userManager.GeneratePasswordResetTokenAsync(user);
+			await _userManager.ResetPasswordAsync(user, token, userEdit.Password);
+
+			await _userManager.UpdateAsync(user);
+
+			return RedirectToAction("Profile");
+		}
     }
 
 }

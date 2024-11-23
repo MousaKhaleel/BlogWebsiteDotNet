@@ -6,10 +6,140 @@
 @inject SignInManager<User> _signInManager
 @inject UserManager<User> _userManager
 
-<div class="text-center">
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+<head>
+    <style>
+        .whyUs {
+            background: rgb(11, 36, 71);
+            border-radius: 4px;
+            padding: 1%;
+            padding-block: 4%;
+            margin-bottom: 4%;
+            color: white;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            justify-content: space-around;
+        }
+
+        .whyUs p {
+            background: rgb(0, 166, 204);
+            padding: 1%;
+            border-radius: 4px;
+            color: white;
+        }
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: rgb(0, 166, 204);
+        }
+
+            .separator::before,
+            .separator::after {
+                content: '';
+                flex: 1;
+                border-bottom: 1px solid gray;
+            }
+
+            .separator:not(:empty)::before {
+                margin-right: .25em;
+            }
+
+            .separator:not(:empty)::after {
+                margin-left: .25em;
+            }
+
+        .pagination {
+            justify-content: center;
+        }
+
+            .pagination button {
+                background: rgb(0, 166, 204);
+                color: white;
+                border: 0;
+                margin: 1px;
+                padding: 2px;
+                padding-inline: 10px;
+                border-radius: 4px;
+            }
+
+    </style>
+</head>
+
+<div class="container-fluid py-5 mb-4 d-flex justify-content-center"
+     style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/pexels-picography-4458.jpg');
+              background-position: center;
+              background-size: cover;
+              background-repeat: no-repeat;
+              border-end-end-radius: 4px;
+              border-end-start-radius: 4px;">
+    <div class="p-5 mb-4 lc-block col-7 col-8 col-11">
+        <div class="lc-block">
+            <div>
+                <h2 class="fw-bolder display-3" style="color:white">Welcome to <span style="color:rgb(0, 166, 204)">XBlog</span></h2>
+            </div>
+        </div>
+        <div class="lc-block col-md-8">
+            <div>
+                <p class="lead" style="color:white">
+                    Write like never before.
+                </p>
+            </div>
+        </div>
+        <!-- add auth -->
+        <div class="lc-block">
+            <a href="/login" class="btn" role="button" style="background: rgb(0, 166, 204); color:white;">
+                Let's start
+            </a>
+        </div>
+    </div>
 </div>
+
+<div class="separator">What to share your experience?</div>
+<br />
+<div class="flexedContainer">
+    <div class="imageContainer">
+        <img src="../assets/pexels-picography-4458.jpg" alt="Blogger" width="300px" />
+    </div>
+    <div class="textContainer">
+        <h4>We all have interesting things in our lives, so why don't we share them?</h4>
+        <p>Do you want to share interesting things but are concerned about your privacy? Fear not; here we provide our bloggers with the ability to share anonymously.</p>
+    </div>
+</div>
+<br />
+<div class="flexedContainer">
+    <div class="textContainer" style="border: none; border-right: 1px solid gray;">
+        <h4>Looking to get the attention of businesses looking for talent?</h4>
+        <p>By writing blogs, you can build a personal brand and promote your services and skills online. Show your passion, skills, and knowledge here.</p>
+    </div>
+    <div class="imageContainer" style="margin-left: 6%;">
+        <img src="../assets/pexels-picography-4458.jpg" alt="Blogger" width="300px" />
+    </div>
+</div>
+<br />
+<div class="separator">Why choose us?</div>
+<br />
+<div class="whyUs">
+    <div>
+        <h5 style="text-align: center;">We provide you with:</h5><br />
+    </div>
+    <div class="features">
+        <p><i class="siFlyway"></i> Freedom</p>
+        <p><i class="mdOutlineSecurity"></i> Security</p>
+        <p><i class="giStrong"></i> Reliability</p>
+    </div>
+</div>
+</main>
+</div>
+
 
 @if (User.IsInRole("Author"))
 {

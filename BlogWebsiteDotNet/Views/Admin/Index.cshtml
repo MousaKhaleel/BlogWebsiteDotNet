@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<BlogWebsiteDotNet.Models.StatusRequest>
+
+<p>admin dashboard</p>
+
+<div>
+	<div>
+		<h2>Pending Requests</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Name</th>
+					<th scope="col">role</th>
+					<th scope="col"></th>
+					<th scope="col">Approve</th>
+					<th scope="col">Deny</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<th scope="row">@item.Id</th>
+						<td>@item.Id</td>
+						<td>@item.requestStatus</td>
+						<td>@item</td>
+						<td>
+							<a asp-action="grantAuthorStatus" asp-route-id="@item.Id" class="btn btn-info">Approve</a>
+						</td>
+						<td>
+							<a asp-action="RefuseAuthorStatus" asp-route-id="@item.Id" class="btn btn-info">Deny</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

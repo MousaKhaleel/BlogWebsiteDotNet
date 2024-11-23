@@ -4,7 +4,7 @@ namespace BlogWebsiteDotNet.ViewModels
 {
     public class LogInVM
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage ="Required")]
         public string? UserName { get; set; }

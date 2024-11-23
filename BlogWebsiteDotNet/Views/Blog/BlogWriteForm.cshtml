@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model BlogWebsiteDotNet.ViewModels.BlogVM
+@inject UserManager<User> _userManager
+
+
+<div class="writeContainer">
+    <form asp-action="WriteBlog" method="POST">
+        <h1>Write a blog</h1>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text"
+                   class="form-control"
+                   id="title"
+                   placeholder="Be creative!"
+                   asp-for="BlogTitle"
+                   required />
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="preview">Preview</label>
+            <input class="form-control"
+                      id="preview"
+                      rows="12"
+                      asp-for="BlogPreview"
+                      required />
+        </div>
+		<br />
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control"
+                      id="content"
+                      rows="12"
+                      asp-for="BlogContent"
+                      required></textarea>
+        </div>
+        <br />
+        <button type="submit" class="btn w-100" style="background: rgb(0, 166, 204); color: white;">
+            Publish
+        </button>
+    </form>
+</div>
+
+@*         <br />
+        <div class="form-group">
+            <label for="preview">Preview</label>
+            <input type="text"
+                   class="form-control"
+                   id="preview"
+                   placeholder="This should grab the user attention" />
+        </div>
+        <div class="form-group">
+            <br />
+            <div class="mb-3 form-check-inline">
+                Tags:
+                <input type="checkbox" class="form-check-input" id="finance">
+                <label class="form-check-label" for="finance">
+                    Finance
+                </label>
+                <input type="checkbox" class="form-check-input" id="lifestyle">
+                <label class="form-check-label" for="lifestyle">
+                    Lifestyle
+                </label>
+                <input type="checkbox" class="form-check-input" id="music">
+                <label class="form-check-label" for="music">
+                    Music
+                </label>
+                <input type="checkbox" class="form-check-input" id="health">
+                <label class="form-check-label" for="health">
+                    Health
+                </label>
+            </div>*@
