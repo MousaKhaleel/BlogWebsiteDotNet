@@ -28,11 +28,6 @@ namespace BlogWebsiteDotNet.Controllers
         //    return View();
         //}
 
-        //public async Task<IActionResult> requireAuthorStatus(string id)
-        //{
-        //    return View();
-        //}
-
 
         //public async Task<IActionResult> EditBog()
         //{

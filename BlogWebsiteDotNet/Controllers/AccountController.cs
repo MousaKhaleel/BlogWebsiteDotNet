@@ -58,7 +58,7 @@ namespace BlogWebsiteDotNet.Controllers
             var result= await _userManager.CreateAsync(user, viewModel.Password);
             if (result.Succeeded)
             {
-                var roleResult = await _userManager.AddToRoleAsync(user, "commenter");
+                var roleResult = await _userManager.AddToRoleAsync(user, "Commenter");
                 if (roleResult.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
@@ -76,23 +76,41 @@ namespace BlogWebsiteDotNet.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile(string id)
         {
-            var user= _userManager.FindByEmailAsync(id);
-            return View(user);
+			if (id.Contains(':'))
+			{
+				id = id.Split(':').Last().Trim();
+			}
+			var user = await _userManager.FindByIdAsync(id);
 
+			var userVM = new UserVM
+			{
+				UserName = user.UserName,
+				Email = user.Email,
+				PhoneNumber = user.PhoneNumber,
+			};
+			return View(userVM);
         }
         public async Task<IActionResult> EditProfile(UserVM userEdit)
         {
 			var user= await _userManager.GetUserAsync(User);
+
 			await _userManager.SetEmailAsync(user, userEdit.Email);
 			await _userManager.SetPhoneNumberAsync(user, userEdit.PhoneNumber);
 
 			var token= await _userManager.GeneratePasswordResetTokenAsync(user);
-			await _userManager.ResetPasswordAsync(user, token, userEdit.Password);
+			await _userManager.ResetPasswordAsync(user, token, userEdit.Password!);
 
 			await _userManager.UpdateAsync(user);
 
 			return RedirectToAction("Profile");
 		}
+
+        public async Task<IActionResult> requireAuthorStatus(string id)
+        {
+			var user = await _userManager.FindByIdAsync(id);
+            await _userManager.AddToRoleAsync(user, "Author");
+			return RedirectToAction("Profile");
+        }
     }
 
 }
