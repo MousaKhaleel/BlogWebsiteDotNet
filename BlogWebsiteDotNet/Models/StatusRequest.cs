@@ -13,7 +13,7 @@ namespace BlogWebsiteDotNet.Models
         public string UserId { get; set; }
         public User User { get; set; }
 
-        public string requestLevel { get; set; }
+        //public string requestLevel { get; set; }
         public string requestStatus { get; set; }
     }
 }

@@ -4,6 +4,7 @@
 @{
 }
 
+@model List<BlogWebsiteDotNet.Models.Blog>
 
 <head>
     <style>
@@ -25,15 +26,18 @@
     </style>
 </head>
 
-<span class="link">
-    <a asp-action="BlogDetails" asp-route-id="">
-        <div class="blogPreviewContainer" style="background: #fff; color: #333;">
-            <div>
-                <h2>Blog Title</h2>
-                <hr />
-                <br />
-                <p>preview</p>
+@foreach (var blog in Model)
+{
+    <span class="link">
+        <a asp-action="BlogDetails" asp-route-id="@blog.Id">
+            <div class="blogPreviewContainer" style="background: #fff; color: #333;">
+                <div>
+                    <h2>@blog.BlogTitle</h2>
+                    <hr />
+                    <br />
+                    <p>@blog.BlogPreview</p>
+                </div>
             </div>
-        </div>
-    </a>
-</span>
+        </a>
+    </span>
+}

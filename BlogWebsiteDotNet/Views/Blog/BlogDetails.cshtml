@@ -4,6 +4,8 @@
 @{
 }
 
+@model BlogWebsiteDotNet.Models.Blog
+
 <head>
     <style>
         .contentContainer h2 {
@@ -18,8 +20,15 @@
 </head>
 
 <div class="contentContainer">
-    <h2>Blog Title</h2>
+    <h2>@Model.BlogTitle</h2>
     <!--TODO:add edit and delete-->
-    <button type="submit" class="btn" style="background: rgb(0, 166, 204); color: white;" onclick="handleDeleteBlog()">Delete Blog</button>
-    <p>Blog content goes here...</p>
+    <button type="submit" class="btn" style="background: rgb(0, 166, 204); color: white;">Delete Blog</button>
+    <p>@Model.BlogContent</p>
 </div>
+@* <div>
+    <ul>
+        @foreach(comment in Model.Comments){
+        <li></li>
+        }
+    </ul>
+</div> *@

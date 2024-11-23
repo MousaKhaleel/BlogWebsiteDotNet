@@ -3,6 +3,7 @@ using BlogWebsiteDotNet.Models;
 using BlogWebsiteDotNet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogWebsiteDotNet.Controllers
 {
@@ -20,9 +21,10 @@ namespace BlogWebsiteDotNet.Controllers
         }
         public async Task<IActionResult> BlogDetails(int id)
         {
-            var blogComments= _context.Comments.Where(x=>x.BlogId==id).ToList();
+            var blog = _context.Blogs.Where(x => x.Id == id).Include(y=>y.Comments);
+            //var blogComments= _context.Comments.Where(x=>x.BlogId==id).ToList();
 
-            return View(blogComments);
+            return View(blog);
         }
 
         [Authorize(Roles = "Author, Admin")]
