@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogWebsiteDotNet.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241121084434_initial")]
+    [Migration("20241121122703_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -87,6 +87,29 @@ namespace BlogWebsiteDotNet.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("BlogWebsiteDotNet.Models.StatusRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("requestStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StatusRequests");
                 });
 
             modelBuilder.Entity("BlogWebsiteDotNet.Models.User", b =>
@@ -313,6 +336,17 @@ namespace BlogWebsiteDotNet.Migrations
                         .IsRequired();
 
                     b.Navigation("Blog");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BlogWebsiteDotNet.Models.StatusRequest", b =>
+                {
+                    b.HasOne("BlogWebsiteDotNet.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

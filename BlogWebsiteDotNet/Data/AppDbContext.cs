@@ -11,6 +11,7 @@ namespace BlogWebsiteDotNet.Data
 
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<StatusRequest> StatusRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

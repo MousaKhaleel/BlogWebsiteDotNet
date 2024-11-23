@@ -4,7 +4,7 @@ namespace BlogWebsiteDotNet.ViewModels
 {
     public class RegisterVM
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string? UserName { get; set; }

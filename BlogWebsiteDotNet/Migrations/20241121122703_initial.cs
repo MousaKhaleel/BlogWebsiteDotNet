@@ -180,6 +180,26 @@ namespace BlogWebsiteDotNet.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StatusRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    requestStatus = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StatusRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StatusRequests_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -259,6 +279,11 @@ namespace BlogWebsiteDotNet.Migrations
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StatusRequests_UserId",
+                table: "StatusRequests",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -281,6 +306,9 @@ namespace BlogWebsiteDotNet.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "StatusRequests");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
