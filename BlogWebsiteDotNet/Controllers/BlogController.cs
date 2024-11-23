@@ -21,10 +21,10 @@ namespace BlogWebsiteDotNet.Controllers
         }
         public async Task<IActionResult> BlogDetails(int id)
         {
-            var blog = _context.Blogs.Where(x => x.Id == id).Include(y=>y.Comments);
+            ViewBag.blogDetails = _context.Blogs.Where(x => x.Id == id).Include(y=>y.Comments);
             //var blogComments= _context.Comments.Where(x=>x.BlogId==id).ToList();
 
-            return View(blog);
+            return View();
         }
 
         [Authorize(Roles = "Author, Admin")]
@@ -41,6 +41,7 @@ namespace BlogWebsiteDotNet.Controllers
             var blog = new Blog
             {
                 BlogTitle = blogVM.BlogTitle,
+                BlogPreview = blogVM.BlogPreview,
                 BlogContent = blogVM.BlogContent,
                 IsDeleted = false,
                 UserId = blogVM.UserId
@@ -49,6 +50,20 @@ namespace BlogWebsiteDotNet.Controllers
             await _context.SaveChangesAsync();
             return View("BlogWriteForm", "Blog");
         }
+		////for comenter
+		//[Authorize(Roles = "Commenter, Author, Admin")]
+		//public async Task<IActionResult> WriteComment(string id)
+		//{
+		//    return View();
+		//}
 
-    }
+		//public async Task<IActionResult> EditBog()
+		//{
+		//	return View
+		//}
+		//public async Task<IActionResult> DeleteBog()
+		//{
+		//	return View
+		//}
+	}
 }

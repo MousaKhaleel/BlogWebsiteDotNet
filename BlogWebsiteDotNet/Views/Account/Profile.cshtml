@@ -4,6 +4,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+	var userId = _userManager.GetUserId(User);
 	// string requestFor;
 	// if (User.IsInRole("Commenter"))
 	// {
@@ -14,12 +15,12 @@
 }
 
 @model BlogWebsiteDotNet.ViewModels.UserVM
-@inject SignInManager<User> _signInManager
+@inject UserManager<User> _userManager
 
 @if (User.IsInRole("Commenter"))
 {
 	<div>
-		<a class="btn btn-primary" asp-action="requestAuthorStatus" asp-route-id="@User.FindFirst(ClaimTypes.NameIdentifier)">Request to become an Author</a>
+		<a class="btn btn-primary" asp-action="requestAuthorStatus" asp-route-id="@userId">Request to become an Author</a>
 	</div>
 }
 
@@ -30,6 +31,7 @@
 				<div>
 					<h2>Edit Profile</h2>
 					<div class="form-group col-md-6">
+						<input type="hidden" name="UserId" asp-for="UserId" value="@userId" />
 						<label for="name">UserName</label>
 						<input type="text" class="form-control" id="name" readonly asp-for="UserName">
 

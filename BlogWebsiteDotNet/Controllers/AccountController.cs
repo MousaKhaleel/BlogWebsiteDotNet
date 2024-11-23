@@ -1,7 +1,9 @@
-﻿using BlogWebsiteDotNet.Models;
+﻿using BlogWebsiteDotNet.Data;
+using BlogWebsiteDotNet.Models;
 using BlogWebsiteDotNet.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogWebsiteDotNet.Controllers
 {
@@ -9,12 +11,15 @@ namespace BlogWebsiteDotNet.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        public AccountController(SignInManager<User> _signInManager, UserManager<User> _userManager)
+		private readonly AppDbContext _context;
+		public AccountController(SignInManager<User> _signInManager, UserManager<User> _userManager, AppDbContext dbContext)
         {
             this._signInManager = _signInManager;
             this._userManager = _userManager;
-        }
-        public IActionResult Index()
+			_context = dbContext;
+		}
+
+		public IActionResult Index()
         {
             return View("LogIn");
         }
@@ -76,14 +81,11 @@ namespace BlogWebsiteDotNet.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile(string id)
         {
-			if (id.Contains(':'))
-			{
-				id = id.Split(':').Last().Trim();
-			}
 			var user = await _userManager.FindByIdAsync(id);
 
 			var userVM = new UserVM
 			{
+                UserId = id,
 				UserName = user.UserName,
 				Email = user.Email,
 				PhoneNumber = user.PhoneNumber,
@@ -92,24 +94,33 @@ namespace BlogWebsiteDotNet.Controllers
         }
         public async Task<IActionResult> EditProfile(UserVM userEdit)
         {
-			var user= await _userManager.GetUserAsync(User);
+			var user= await _userManager.FindByIdAsync(userEdit.UserId);
 
 			await _userManager.SetEmailAsync(user, userEdit.Email);
 			await _userManager.SetPhoneNumberAsync(user, userEdit.PhoneNumber);
 
-			var token= await _userManager.GeneratePasswordResetTokenAsync(user);
-			await _userManager.ResetPasswordAsync(user, token, userEdit.Password!);
+            if (userEdit.Password != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                await _userManager.ResetPasswordAsync(user, token, userEdit.Password!);
+            }
 
 			await _userManager.UpdateAsync(user);
 
-			return RedirectToAction("Profile");
+			return View("Profile");
 		}
 
         public async Task<IActionResult> requestAuthorStatus(string id)
         {
 			var user = await _userManager.FindByIdAsync(id);
-            await _userManager.AddToRoleAsync(user, "Author");
-			return RedirectToAction("Profile");
+            var newReq = new StatusRequest
+            {
+                UserId=user.Id,
+				requestStatus= "Pending"
+			};
+			_context.StatusRequests.Add(newReq);
+			await _context.SaveChangesAsync();
+			return RedirectToAction("Profile","Account", new { id });
         }
     }
 
