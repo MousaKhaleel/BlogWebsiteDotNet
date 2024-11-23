@@ -28,7 +28,7 @@ namespace BlogWebsiteDotNet.Controllers
         //    return View();
         //}
 
-        //public async Task<IActionResult> requireAuthorStatus(int id)
+        //public async Task<IActionResult> requireAuthorStatus(string id)
         //{
         //    return View();
         //}
