@@ -41,7 +41,7 @@ namespace BlogWebsiteDotNet.Controllers
                 BlogPreview = blogVM.BlogPreview,
                 BlogContent = blogVM.BlogContent,
                 IsDeleted = false,
-                UserId = blogVM.UserId
+                UserId = blogVM.UserId,
             };
             await _context.Blogs.AddAsync(blog);
             await _context.SaveChangesAsync();
@@ -50,7 +50,7 @@ namespace BlogWebsiteDotNet.Controllers
         }
 		public async Task<IActionResult> BlogDetails(int id)
 		{
-			var blogDetails = await _context.Blogs.Where(x => x.Id == id).FirstAsync();
+			var blogDetails = await _context.Blogs.Where(x => x.Id == id).Include(y=>y.User).FirstAsync();
 			var blogComments= await _context.Comments.Where(x=>x.BlogId==id).Include(y=>y.User).ToListAsync();
 
             var blogAndComments = new BlogAndCommentsVM
@@ -58,6 +58,7 @@ namespace BlogWebsiteDotNet.Controllers
                 BlogId = blogDetails.Id,
                 BlogTitle = blogDetails.BlogTitle,
                 BlogContent = blogDetails.BlogContent,
+                BlogAuthorId= blogDetails.UserId,
                 //BlogIsDeleted = blogDetails.IsDeleted,
                 Comments = blogComments.ToList(),
             };
@@ -65,16 +66,21 @@ namespace BlogWebsiteDotNet.Controllers
             return View(blogAndComments);
 		}
 
-		//public async Task<IActionResult> EditBog()
-		//{
-		//	return View
-		//}
-		//public async Task<IActionResult> DeleteBog()
-		//{
-		//	return View
-		//}
+        //public async Task<IActionResult> EditBog()
+        //{
+        //	return View
+        //}
+        public async Task<IActionResult> DeleteBog(int id)
+        {
+            var blogToDelete= _context.Blogs.Where(x => x.Id==id).FirstOrDefault();
+			//blogToDelete.IsDeleted = true;
+            _context.Blogs.Remove(blogToDelete);
+            await _context.SaveChangesAsync();
+			return RedirectToAction("Index");
 
-		[Authorize(Roles = "Commenter, Author, Admin")]
+        }
+
+        [Authorize(Roles = "Commenter, Author, Admin")]
 		public async Task<IActionResult> WriteComment(BlogAndCommentsVM blogAndComments)
 		{
 			var comment = new Comment

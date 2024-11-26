@@ -27,7 +27,10 @@
 <div class="contentContainer">
 	<h2>@Model.BlogTitle</h2>
 	<!--TODO:add edit and delete-->
-	@* <button type="submit" class="btn" style="background: rgb(0, 166, 204); color: white;">Delete Blog</button> *@
+	@if (User.IsInRole("Admin") || userId == Model.BlogAuthorId)
+	{
+		<a asp-action="DeleteBog" asp-route-id="@Model.BlogId" class="btn btn-danger">Delete Blog</a>
+	}
 	<p>@Model.BlogContent</p>
 </div>
 <div>
