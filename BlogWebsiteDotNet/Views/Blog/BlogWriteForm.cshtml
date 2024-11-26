@@ -11,7 +11,7 @@
 
 
 <div class="writeContainer">
-	<form asp-action="WriteBlog" method="POST">
+	<form asp-action="WriteBlog" method="POST" enctype="multipart/form-data">
 		<h1>Write a blog</h1>
 		<input type="hidden" name="UserId" asp-for="UserId" value="@userId" />
 		<div class="form-group">
@@ -22,6 +22,10 @@
 				   placeholder="Be creative!"
 				   asp-for="BlogTitle"
 				   required />
+		</div>
+		<div class="mb-3">
+			<label for="formFile" class="form-label">Upload Blog Image</label>
+			<input class="form-control" name="blogImageFile" type="file" id="formFile">
 		</div>
 		<br />
 		<div class="form-group">

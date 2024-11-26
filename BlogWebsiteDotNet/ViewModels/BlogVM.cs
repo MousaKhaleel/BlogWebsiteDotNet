@@ -11,6 +11,8 @@ namespace BlogWebsiteDotNet.ViewModels
         public string BlogContent { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public bool IsDeleted { get; set; }
+		public string? BlogImage { get; set; }
+
 		public string UserId { get; set; }
 		public User User { get; set; }
 
