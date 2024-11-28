@@ -3,17 +3,18 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	var userId = _userManager.GetUserId(User);
+	// var user= SignInManager.
+	// var userId = _userManager.GetUserId(User);
 }
 
 @model BlogWebsiteDotNet.ViewModels.BlogVM
-@inject UserManager<User> _userManager
+@* @inject UserManager<User> _userManager *@
 
 
 <div class="writeContainer">
 	<form asp-action="WriteBlog" method="POST" enctype="multipart/form-data">
 		<h1>Write a blog</h1>
-		<input type="hidden" name="UserId" asp-for="UserId" value="@userId" />
+		@* <input type="hidden" name="UserId" asp-for="UserId" value="@userId" /> *@
 		<div class="form-group">
 			<label for="title">Title</label>
 			<input type="text"

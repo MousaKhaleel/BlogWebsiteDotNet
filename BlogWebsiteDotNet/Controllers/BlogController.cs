@@ -58,6 +58,8 @@ namespace BlogWebsiteDotNet.Controllers
 				blogVM.BlogImage = null;
 			}
 
+            var userId = _userManager.GetUserId(User);
+
 				var blog = new Blog
             {
                 BlogTitle = blogVM.BlogTitle,
@@ -65,7 +67,7 @@ namespace BlogWebsiteDotNet.Controllers
                 BlogContent = blogVM.BlogContent,
                 IsDeleted = false,
                 BlogImage = blogVM.BlogImage,
-                UserId = blogVM.UserId,
+                UserId = userId!,
             };
             await _context.Blogs.AddAsync(blog);
             await _context.SaveChangesAsync();

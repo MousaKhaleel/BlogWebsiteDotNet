@@ -81,13 +81,15 @@ namespace BlogWebsiteDotNet.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Profile(string id)
+        public async Task<IActionResult> Profile()
         {
-			var user = await _userManager.FindByIdAsync(id);
+			var userId=_userManager.GetUserId(User);
+
+			var user = await _userManager.FindByIdAsync(userId);
 
 			var userVM = new UserVM
 			{
-                UserId = id,
+                UserId = user.Id,
 				UserName = user.UserName,
 				Email = user.Email,
 				PhoneNumber = user.PhoneNumber,

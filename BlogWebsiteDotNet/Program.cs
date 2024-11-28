@@ -49,6 +49,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+	name: "areas",
+	pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 
@@ -67,20 +71,20 @@ using (var scope = app.Services.CreateScope())
 
 using (var scope = app.Services.CreateScope())
 {
-    var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-    var name = "Admin";
-    var email = "Admin@adm.com";
-    var password = "Admin@1234";
-    if (await _userManager.FindByEmailAsync(email) == null)
-    {
-        var user = new User
-        {
-            UserName = name,
-            Email = email
-        };
-        await _userManager.CreateAsync(user, password);
-        await _userManager.AddToRoleAsync(user, "Admin");
-    }
+	var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+	var name = "Admin";
+	var email = "Admin@adm.com";
+	var password = "Admin@1234";
+	if (await _userManager.FindByEmailAsync(email) == null)
+	{
+		var user = new User
+		{
+			UserName = name,
+			Email = email
+		};
+		await _userManager.CreateAsync(user, password);
+		await _userManager.AddToRoleAsync(user, "Admin");
+	}
 }
 
 
