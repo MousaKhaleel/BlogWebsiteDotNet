@@ -95,7 +95,7 @@ namespace BlogWebsiteDotNet.Controllers
         //{
         //	return View
         //}
-        public async Task<IActionResult> DeleteBog(int id)
+        public async Task<IActionResult> DeleteBlog(int id)
         {
             var blogToDelete= _context.Blogs.Where(x => x.Id==id).FirstOrDefault();
 			//blogToDelete.IsDeleted = true;
