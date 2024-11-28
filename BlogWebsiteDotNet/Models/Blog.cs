@@ -14,7 +14,7 @@ namespace BlogWebsiteDotNet.Models
 		public DateTime CreatedDate { get; set; }
 		public bool IsDeleted { get; set; }
 
-        //public Base64 BlogImage { get; set; }
+        public string? BlogImage { get; set; }
         //public int BlogViewCount {  get; set; }
         //public bool IsModified { get; set; }
 

@@ -27,7 +27,12 @@
 <div class="contentContainer">
 	<h2>@Model.BlogTitle</h2>
 	<!--TODO:add edit and delete-->
-	@* <button type="submit" class="btn" style="background: rgb(0, 166, 204); color: white;">Delete Blog</button> *@
+	@if (User.IsInRole("Admin") || userId == Model.BlogAuthorId)
+	{
+		<button class="btn btn-danger" onclick="showDeleteModal('@Url.Action("DeleteBlog", new { id = Model.BlogId })')">Delete Blog</button>
+		@* <a asp-action="DeleteBlog" asp-route-id="@Model.BlogId" class="btn btn-danger">Delete Blog</a> *@
+	}
+	<img src="@Url.Content("~/"+Model.BlogImage)" alt="Blog Image" />
 	<p>@Model.BlogContent</p>
 </div>
 <div>
@@ -64,6 +69,7 @@
 	</ul>
 </div>
 
+@await Html.PartialAsync("_DeleteConfirmationModal")
 
 
 @* <section style="background-color: #eee;">

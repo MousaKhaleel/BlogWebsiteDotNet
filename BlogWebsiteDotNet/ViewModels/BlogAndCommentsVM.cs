@@ -12,6 +12,7 @@ namespace BlogWebsiteDotNet.ViewModels
 		//public bool BlogIsDeleted { get; set; }
 		public string BlogAuthorId { get; set; }
 		//public User AuthorUser { get; set; }
+		public string? BlogImage { get; set; }
 
 		public List<Comment>? Comments { get; set; }
 
